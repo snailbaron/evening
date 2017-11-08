@@ -10,8 +10,14 @@
 
 namespace evening {
 
-class Channel {
+class Channel final {
 public:
+    Channel() {}
+    Channel(const Channel&) = delete;
+    Channel(Channel&&) = delete;
+    Channel& operator=(const Channel&) = delete;
+    Channel& operator=(Channel&&) = delete;
+
     /**
      * Subscribe to channel, providing a tracker.
      */
@@ -31,16 +37,25 @@ public:
             });
     }
 
+    template <class Event, class Tracker>
+    void subscribe(
+        const std::shared_ptr<Tracker>& tracker,
+        std::function<void(const Event&)> handler)
+    {
+        subscribe(std::weak_ptr<Tracker>(tracker), handler);
+    }
+
+
     /**
      * Subscribe to channel, returning subscription object.
      */
     template <class Event>
     std::shared_ptr<char> subscribe(std::function<void(const Event&)> handler)
     {
-        std::shared_ptr<char> life;
+        auto life = std::make_shared<char>();
         std::weak_ptr<char> tracker = life;
         _handlers[std::type_index(typeid(Event))].push_back(
-            [tracker] (const std::any& event) -> bool {
+            [tracker, handler] (const std::any& event) -> bool {
                 if (tracker.expired()) {
                     return false;
                 }
@@ -96,24 +111,6 @@ public:
         }
     }
 
-    size_t eventCount() const
-    {
-        size_t count = 0;
-        for (const auto& eventsPair : _events) {
-            count += eventsPair.second.size();
-        }
-        return count;
-    }
-
-    size_t handlerCount() const
-    {
-        size_t count = 0;
-        for (const auto& handlersPair : _handlers) {
-            count += handlersPair.second.size();
-        }
-        return count;
-    }
-
 private:
     using Handler = std::function<bool(const std::any&)>;
     using HandlerMap = std::map<std::type_index, std::vector<Handler>>;
@@ -146,12 +143,10 @@ public:
     virtual ~Subscriber() {}
 
 protected:
-    std::weak_ptr<char> lifeTracker() const { return _lifeTracker; }
-
     template <class Event>
     void subscribe(Channel& channel, std::function<void(const Event&)> handler)
     {
-        channel.subscribe<Event>(lifeTracker(), handler);
+        channel.subscribe<Event>(std::weak_ptr<char>(_lifeTracker), handler);
     }
 
 private:

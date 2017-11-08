@@ -143,12 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="events.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\evening.hpp" />
-    <ClInclude Include="..\include\evening\events.hpp" />
-    <ClInclude Include="..\include\evening\events_impl.hpp" />
+    <ClInclude Include="include\evening.hpp" />
+    <ClInclude Include="include\evening\events.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

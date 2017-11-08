@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "evening", "src\evening.vcxproj", "{CA22F620-E98D-4B69-A5A3-9E5BDFA96580}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "evening", "evening\evening.vcxproj", "{CA22F620-E98D-4B69-A5A3-9E5BDFA96580}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{3598FBF0-75B2-4A20-BC1A-B399B643F416}"
 	ProjectSection(ProjectDependencies) = postProject
