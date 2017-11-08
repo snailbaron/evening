@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include <evening/events.hpp>
+#include <evening.hpp>
 
 #include <memory>
 #include <iostream>
@@ -15,14 +15,14 @@ struct EventB {};
 struct SimpleSubscriber : ev::Subscriber {
     void subscribeToA(ev::Channel& channel)
     {
-        subscribe<EventA>(channel, [this] (const EventA& event) {
+        subscribe<EventA>(channel, [this] (const EventA&) {
             a++;
         });
     }
 
     void subscribeToB(ev::Channel& channel)
     {
-        subscribe<EventB>(channel, [this] (const EventB& event) {
+        subscribe<EventB>(channel, [this] (const EventB&) {
             b++;
         });
     }

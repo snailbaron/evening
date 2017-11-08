@@ -14,7 +14,7 @@ struct Container {
     void createElement(ev::Channel& channel)
     {
         element = std::make_shared<Element>();
-        channel.subscribe<Event>(element, [this] (const Event& event) {
+        channel.subscribe<Event>(element, [this] (const Event&) {
             counter++;
         });
     }

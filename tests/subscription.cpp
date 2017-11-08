@@ -11,7 +11,7 @@ struct Event {};
 struct SubscriptionHolder {
     void subscribe(ev::Channel& channel)
     {
-        subscription = channel.subscribe<Event>([this] (const Event& event) {
+        subscription = channel.subscribe<Event>([this] (const Event&) {
             counter++;
         });
     }
