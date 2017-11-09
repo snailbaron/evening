@@ -26,11 +26,6 @@ matrix:
       env:
         - MATRIX_EVAL="CXX=clang++-5.0"
 
-    - os: osx
-      osx_image: xcode8.3
-      env:
-        - MATRIX_EVAL="CXX=clang++-5.0"
-
 before_install:
   - eval "${MATRIX_EVAL}"
 
