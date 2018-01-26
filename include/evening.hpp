@@ -32,7 +32,6 @@ SOFTWARE.
 #include <functional>
 #include <typeindex>
 #include <memory>
-#include <numeric>
 
 namespace evening {
 
