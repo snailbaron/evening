@@ -38,41 +38,117 @@ TEST_CASE("Subscribe to itself", "[subscriber]")
     ev::Channel channel;
     SimpleSubscriber subscriber;
 
+    REQUIRE(subscriber.a == 0);
+    REQUIRE(subscriber.b == 0);
+
     SECTION("No subscriptions")
     {
-        channel.send(EventA{});
-        channel.send(EventB{});
-        REQUIRE(subscriber.a == 0);
-        REQUIRE(subscriber.b == 0);
+        SECTION("send") {
+            channel.send(EventA{});
+            channel.send(EventB{});
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+        }
+        SECTION("makeSend") {
+            channel.makeSend<EventA>();
+            channel.makeSend<EventB>();
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+        }
+        SECTION("push") {
+            channel.push(EventA{});
+            channel.push(EventB{});
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+            channel.deliver();
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+        }
+        SECTION("makePush") {
+            channel.makePush<EventA>();
+            channel.makePush<EventB>();
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+            channel.deliver();
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+        }
     }
 
-    SECTION("Some subscriptions")
+    SECTION("Single subscription")
     {
         subscriber.subscribeToA(channel);
-        channel.send(EventA{});
-        channel.send(EventB{});
-        REQUIRE(subscriber.a == 1);
+        REQUIRE(subscriber.a == 0);
         REQUIRE(subscriber.b == 0);
+
+        SECTION("send") {
+            channel.send(EventA{});
+            channel.send(EventB{});
+            REQUIRE(subscriber.a == 1);
+            REQUIRE(subscriber.b == 0);
+        }
+        SECTION("makeSend") {
+            channel.makeSend<EventA>();
+            channel.makeSend<EventB>();
+            REQUIRE(subscriber.a == 1);
+            REQUIRE(subscriber.b == 0);
+        }
+        SECTION("push") {
+            channel.push(EventA{});
+            channel.push(EventB{});
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+            channel.deliver();
+            REQUIRE(subscriber.a == 1);
+            REQUIRE(subscriber.b == 0);
+        }
+        SECTION("makePush") {
+            channel.makePush<EventA>();
+            channel.makePush<EventB>();
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+            channel.deliver();
+            REQUIRE(subscriber.a == 1);
+            REQUIRE(subscriber.b == 0);
+        }
     }
 
     SECTION("Multiple subscriptions")
     {
         subscriber.subscribeToA(channel);
         subscriber.subscribeToB(channel);
-        channel.send(EventA{});
-        channel.send(EventB{});
-        REQUIRE(subscriber.a == 1);
-        REQUIRE(subscriber.b == 1);
-    }
-
-    SECTION("Push and deliver")
-    {
-        subscriber.subscribeToA(channel);
-
-        channel.push(EventA{});
         REQUIRE(subscriber.a == 0);
+        REQUIRE(subscriber.b == 0);
 
-        channel.deliver();
-        REQUIRE(subscriber.a == 1);
+        SECTION("send") {
+            channel.send(EventA{});
+            channel.send(EventB{});
+            REQUIRE(subscriber.a == 1);
+            REQUIRE(subscriber.b == 1);
+        }
+        SECTION("makeSend") {
+            channel.makeSend<EventA>();
+            channel.makeSend<EventB>();
+            REQUIRE(subscriber.a == 1);
+            REQUIRE(subscriber.b == 1);
+        }
+        SECTION("push") {
+            channel.push(EventA{});
+            channel.push(EventB{});
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+            channel.deliver();
+            REQUIRE(subscriber.a == 1);
+            REQUIRE(subscriber.b == 1);
+        }
+        SECTION("makePush") {
+            channel.makePush<EventA>();
+            channel.makePush<EventB>();
+            REQUIRE(subscriber.a == 0);
+            REQUIRE(subscriber.b == 0);
+            channel.deliver();
+            REQUIRE(subscriber.a == 1);
+            REQUIRE(subscriber.b == 1);
+        }
     }
 }

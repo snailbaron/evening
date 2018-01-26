@@ -3,12 +3,23 @@
 [![Build Status](https://travis-ci.org/snailbaron/evening.svg?branch=master)](https://travis-ci.org/snailbaron/evening)
 [![Build status](https://ci.appveyor.com/api/projects/status/fkje9ddpvmdapx32/branch/master?svg=true)](https://ci.appveyor.com/project/snailbaron/evening/branch/master)
 
-## How to build tests
+## Requirements
 
-### Requirements
+* Modern C++ compiler (C++14 support is probably enough).
 
-* C++17 conformant(ish) compiler. GCC 7 or Clang 5.0 will do.
-* CMake 3.1 or newer.
+## How to use
+
+The easiest way to use *evening* is to copy the header directly into your
+include directory:
+
+    curl -fLo <your_project_include_dir>/evening.hpp --create-dirs \
+        https://raw.githubusercontent.com/snailbaron/evening/master/include/evening.hpp
+
+## Building tests
+
+### Additional requirements for building tests
+
+* CMake 3.8 or newer.
 
 ### Build instructions
 

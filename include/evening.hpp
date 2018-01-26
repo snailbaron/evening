@@ -1,3 +1,29 @@
+/*
+
+MIT License
+
+Copyright (c) 2017 Igor Martynov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/
+
 #pragma once
 
 #include <vector>
@@ -44,7 +70,6 @@ public:
     {
         subscribe(std::weak_ptr<Tracker>(tracker), handler);
     }
-
 
     /**
      * Subscribe to channel, returning subscription object.
@@ -100,10 +125,12 @@ public:
     {
         for (auto eventsPairIt = _events.begin();
                 eventsPairIt != _events.end();) {
-            auto handlersPairIt = _handlers.find(eventsPairIt->first);
+            const auto& eventTypeIndex = eventsPairIt->first;
+            const auto& eventVector = eventsPairIt->second;
+
+            auto handlersPairIt = _handlers.find(eventTypeIndex);
             if (handlersPairIt != _handlers.end()) {
-                const auto& events = eventsPairIt->second;
-                for (const auto& event : events) {
+                for (const auto& event : eventVector) {
                     sendEvent(event, handlersPairIt);
                 }
             }

@@ -1,12 +1,15 @@
-cmake_minimum_required (VERSION 3.1)
+cmake_minimum_required (VERSION 3.8)
 
 project (evening)
 
+set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
         "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set (flags "-std=c++17 -Wall -Wextra -Werror")
+    set (flags "-Wall -Wextra -Werror")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set (flags "/std:c++17 /W4 /WX /EHsc")
+    set (flags "/W4 /WX /EHsc")
 endif ()
 
 if (NOT CONFIGURED_ONCE)
@@ -15,8 +18,12 @@ if (NOT CONFIGURED_ONCE)
 endif()
 
 add_library (evening INTERFACE)
-target_sources (evening INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/evening/include/evening.hpp)
-target_include_directories (evening INTERFACE evening/include/)
+target_sources (evening INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/evening.hpp)
+target_include_directories (evening INTERFACE include/)
+
+install (TARGETS evening EXPORT snailbaron::evening)
+export (TARGETS evening FILE ${CMAKE_BINARY_DIR}/evening-config.cmake)
 
 add_subdirectory (tests)
 enable_testing ()
