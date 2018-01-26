@@ -76,7 +76,7 @@ public:
     template <class Event, class... Args>
     void makePush(Args&&... args)
     {
-        _events[std::type_index(typeid(Event))].emplace_back(std::forward<Args>(args)...);
+        _events[std::type_index(typeid(Event))].emplace_back(Event(std::forward<Args>(args)...));
     }
 
     template <class Event>
