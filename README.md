@@ -5,7 +5,7 @@
 
 ## Requirements
 
-* Modern C++ compiler (C++14 support is probably enough).
+* Modern C++ compiler (the code is written with C++17 in mind).
 
 ## How to use
 
