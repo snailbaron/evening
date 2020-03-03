@@ -7,15 +7,10 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
         "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set (flags "-Wall -Wextra -Werror")
+    add_compile_options (-Wall -Wextra -Werror)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set (flags "/W4 /WX /EHsc")
+    add_compile_options (/W4 /WX /EHsc)
 endif ()
-
-if (NOT CONFIGURED_ONCE)
-    set (CMAKE_CXX_FLAGS "${flags}"
-        CACHE STRING "Compilation flags for all build types." FORCE)
-endif()
 
 add_library (evening INTERFACE)
 target_sources (evening INTERFACE
