@@ -20,6 +20,10 @@ target_include_directories (evening INTERFACE include/)
 install (TARGETS evening EXPORT snailbaron::evening)
 export (TARGETS evening FILE ${CMAKE_BINARY_DIR}/evening-config.cmake)
 
+if(NOT TARGET Catch2::Catch2WithMain)
+    add_subdirectory(deps/Catch2)
+endif()
+
 add_subdirectory (tests)
 enable_testing ()
 add_test (NAME evening_tests COMMAND evening_tests)
