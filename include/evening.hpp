@@ -26,22 +26,23 @@ SOFTWARE.
 
 #pragma once
 
-#include <vector>
-#include <map>
 #include <any>
 #include <functional>
-#include <typeindex>
+#include <map>
 #include <memory>
+#include <typeindex>
+#include <vector>
 
 namespace evening {
 
 class Channel final {
 public:
-    Channel() {}
+    Channel() = default;
     Channel(const Channel&) = delete;
     Channel(Channel&&) = delete;
     Channel& operator=(const Channel&) = delete;
     Channel& operator=(Channel&&) = delete;
+    ~Channel() = default;
 
     /**
      * Subscribe to channel, providing a tracker.
@@ -166,7 +167,7 @@ private:
 
 class Subscriber {
 public:
-    virtual ~Subscriber() {}
+    virtual ~Subscriber() = default;
 
 protected:
     template <class Event>
